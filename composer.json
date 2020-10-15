@@ -1,0 +1,29 @@
+{
+    "name": "hypercode/db_operations",
+    "description": "A system using PDO to make operation in database",
+    "type": "library",
+    "authors": [
+        {
+            "name": "JoaoGabrielOliveira",
+            "email": "joaog.conceicao@hotmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Hyper\\Database\\":["src"],
+            "Hyper\\Database\\CRUD\\":["src/crud"]
+        }
+    },
+
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/JoaoGabrielOliveira/colored_console"
+        }
+    ],
+
+    "require": {
+        "hypercode/colored_console": "dev-main"
+    }
+}
