@@ -3,11 +3,12 @@
 namespace Hyper\Database\CRUD;
 
 use Hyper\Database\DbConnection;
-use PDO;
+use Hyper\Console;
+use Exception;
 
 class update
 {
-    public static function execute($table_name, $condition, $params)
+    public static function execute(string $table_name, $condition, array $params)
     {
         try
         {
@@ -21,19 +22,19 @@ class update
 
             $statement->execute();
 
-            info_success(print_blue($setters) . "foram atualizados com", " SUCESSO!","  ⇉");
+            Console::info_success(Console::print_blue($setters) . "foram atualizados com", " SUCESSO!","  ⇉");
         }
 
         catch(Exception $e)
         {
-            print_red("Error: " . $e->getMessage(),false);
+            Console::print_red("Error: " . $e->getMessage(),false);
         }
     }
 
-    public static function execute_other(PDO $connection,$table_name, $params = [ [1, ['nome' => 'GabrielZão', 'endereco_id' => '300']], [2, ['nome' => 'Joãozão', 'endereco_id' => '300']] ])
+    /*public static function execute_other(PDO $connection,$table_name, $params = [ [1, ['nome' => 'GabrielZão', 'endereco_id' => '300']], [2, ['nome' => 'Joãozão', 'endereco_id' => '300']] ])
     {
         
-    }
+    }*/
 
     private static function creating_condition($condition)
     {
@@ -69,7 +70,7 @@ class update
         return($result);
     }
 
-    private static function creating_setters($data)
+    private static function creating_setters(array $data)
     {
         $result = [];
 

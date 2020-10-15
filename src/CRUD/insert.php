@@ -16,7 +16,7 @@ class insert
         $marged_data;
         try
         {
-            if (self::is_mutiple_values($values))
+            if (self::is_multiple_values($values))
             {
                 $collumns_name = implode(',',array_keys($values[0]));
                 $processed_data = self::processing_data($values);
@@ -44,8 +44,8 @@ class insert
 
             $statement->execute();
 
-            info_success(print_yellow($insert_results) . "foram dados insetidos com", " SUCESSO!","⇉");
-            print_blue($SQL_string, false);
+            Console::info_success(Console::print_yellow($insert_results) . "foram dados insetidos com", " SUCESSO!","⇉");
+            Console::print_blue($SQL_string, false);
             print("\n");
             
             $connection = null;
@@ -54,7 +54,7 @@ class insert
         }
         catch(Exception $e)
         {
-            print_red("Error: " . $e->getMessage(),false);
+            Console::print_red("Error: " . $e->getMessage(),false);
         }
     }
 
@@ -76,7 +76,7 @@ class insert
         return $processed_data;
     }
 
-    private static function is_mutiple_values(array $data)
+    private static function is_multiple_values(array $data)
     {
         $keys = array_keys($data);
         $is_int = is_int($keys[0]);

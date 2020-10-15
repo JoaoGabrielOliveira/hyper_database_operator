@@ -8,7 +8,7 @@ use PDO;
 
 class delete
 {
-    public static function execute($table_name, $condition)
+    public static function execute(string $table_name, $condition)
     {
         try
         {
@@ -22,12 +22,12 @@ class delete
 
             $connection = null;
 
-            info_success( print_yellow($SQL_string) . "foram atualizados com", " SUCESSO!","  ⇉");
+            Console::info_success( Console::print_yellow($SQL_string) . "foram atualizados com", " SUCESSO!","  ⇉");
         }
 
         catch(Exception $e)
         {
-            print_red("Error: " . $e->getMessage(),false);
+            Console::print_red("Error: " . $e->getMessage(),false);
         }
     }
 
