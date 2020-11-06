@@ -7,4 +7,4 @@
 !/vendor/composer/*
 !/vendor/composer/autoload.php
 
-/main/*
+/tmp/*
