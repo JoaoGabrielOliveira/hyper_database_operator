@@ -3,6 +3,7 @@
 namespace Hyper\Database\CRUD;
 
 use Hyper\Database\DbConnection;
+use Hyper\Console;
 use PDO;
 
 class insert
@@ -11,27 +12,27 @@ class insert
     {
         $insert_results = 0;
 
-        $collumns_name;
+        $columns_name;
         $processed_data;
         $marged_data;
         try
         {
             if (self::is_multiple_values($values))
             {
-                $collumns_name = implode(',',array_keys($values[0]));
+                $columns_name = implode(',',array_keys($values[0]));
                 $processed_data = self::processing_data($values);
                 $marged_data = self::merge_data($processed_data);
             }
 
             else
             {
-                $collumns_name = implode(',',array_keys($values));
+                $columns_name = implode(',',array_keys($values));
                 $processed_data = self::processing_multiple_data($values);
                 //The syntax to insert a single data it's already and does not need marge data.
                 $marged_data = $processed_data;
             }
 
-            $SQL_string = self::convert_data_to_insert_sql('tb_cliente',$collumns_name,$processed_data);
+            $SQL_string = self::convert_data_to_insert_sql('tb_cliente',$columns_name,$processed_data);
 
             $statement = DbConnection::prepare_statement($SQL_string);
 
