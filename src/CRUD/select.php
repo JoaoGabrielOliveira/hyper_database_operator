@@ -33,9 +33,9 @@ class select
 
     private static function creating_condition($condition)
     {
-        $result = [];
+        $result = [];       
 
-        if(is_array($condition) )
+        if(is_array($condition))
         {
             foreach($condition as $key => $value)
             {
@@ -49,12 +49,12 @@ class select
 
         else if(is_string($condition) && $condition != '')
         {
-            $result = 'WHERE ' . $condition;
+            strpos($condition, 'WHERE') === true ? $result = 'WHERE ' . $condition : $result = $condition;
         }
 
         else if($condition == '')
         {
-            $result = '';
+            $result = $condition;
         }
 
         else
