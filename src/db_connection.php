@@ -2,14 +2,22 @@
 
 namespace Hyper\Database;
 
-use Exception;
+use Hyper\Database\DatabaseConnection as Connection;
+use Hyper\Database\Drivers\PostgreSQLConnection;
+use Hyper\Database\Drivers\SQLiteConnection;
+
 use PDO;
+use PDOException;
 use PDOStatement;
+use Exception;
 
 class DbConnection
 {   
     public $connection_params;
+    private $_driver;
+    
     private static $_instance;
+    
 
     public function __construct($params)
     {
@@ -18,51 +26,21 @@ class DbConnection
             $params = $params['db'];
         }
 
-        $this->connection_params = $params;
+        switch($params['driver'])
+        {
+            case 'psql':
+                $this->_driver = new PostgreSQLConnection($params);
+            break;
+
+            case 'sqlite':
+                $this->_driver = new SQLiteConnection($params);
+            break;
+        }
     }
     
     public function connect()
     {
-        $database_server = '';
-        $params = $this->connection_params;
-        
-        switch($params['driver'])
-        {
-            case 'sqlite':
-                $database_server = 'sqlite:' . $params['path'];
-            break;
-
-            case 'psql':
-            $database_server = 'psql' . ':
-                dbname=' . $params['name'] . ';
-                host=' . $params['host'] . ';
-                port=' . $params['port'] . ';
-                user:' . $params['user'] .';
-                password:' . $params['password'] . 'charset=utf8';
-            break;
-
-            default:
-                $new_params = [$params['driver'] . ':'];
-                unset($params['driver']);
-
-                //Get all params and set all with your key name and value
-                foreach($params as $param => $value)
-                {
-                    $new_params[] = "$param=$value;";
-                }
-
-                $database_server = implode('',$new_params);
-            break;
-        }
-        
-        try 
-        {
-            return new \PDO($database_server);
-        }
-        catch(PDOException $e)
-        {
-            echo 'Conexão falhou: ' . $e->getMessage();
-        }
+        return $this->_driver->connect();
     }
 
     public static function get_instance()
@@ -84,16 +62,16 @@ class DbConnection
 
         else
         {
-            echo "This it's already instanced";
+            echo "This it's already instanced\n";
         }
     }
 
-    public static function prepare_statement(string $query):PDOStatement
+    public static function prepare_statement(string $query)
     {
-        $connection = self::$_instance->connect();
+        $connection = self::get_instance()->connect();
 
-        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $connection->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
+        //$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //$connection->setAttribute(PDO::ATTR_CASE, PDO::CASE_NATURAL);
 
         return $connection->prepare($query);
     }
