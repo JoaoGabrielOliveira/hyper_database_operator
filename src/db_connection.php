@@ -83,10 +83,10 @@ class DbConnection
         return false; 
     }
 
-    public static function get_driver()
+    public static function get_driver($return_driver_name = false)
     {
         $instance = self::get_instance();
-        return $instance->connection_params['driver'];
+        return $return_driver_name ? $instance->connection_params['driver'] : $instance->_driver;
     }
 }
 
