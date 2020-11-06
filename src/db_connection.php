@@ -4,6 +4,7 @@ namespace Hyper\Database;
 
 use Exception;
 use PDO;
+use PDOStatement;
 
 class DbConnection
 {   
@@ -87,7 +88,7 @@ class DbConnection
         }
     }
 
-    public static function prepare_statement(string $query)
+    public static function prepare_statement(string $query):PDOStatement
     {
         $connection = self::$_instance->connect();
 
@@ -102,6 +103,12 @@ class DbConnection
         if(is_null(self::$_instance))
             return true;
         return false; 
+    }
+
+    public static function get_driver()
+    {
+        $instance = self::get_instance();
+        return $instance->connection_params['driver'];
     }
 }
 
