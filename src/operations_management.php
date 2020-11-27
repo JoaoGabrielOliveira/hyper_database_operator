@@ -2,7 +2,7 @@
 namespace Hyper\Database;
 use Hyper\Database\DbConnection;
 
-class Operations
+class OperationsManagement
 {
     public static function get_all_collumns(string $table_name)
     {

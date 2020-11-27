@@ -11,7 +11,7 @@ use PDOException;
 use PDOStatement;
 use Exception;
 
-class DbConnection
+class ConnectionManagement
 {   
     public $connection_params;
     private $_driver;
