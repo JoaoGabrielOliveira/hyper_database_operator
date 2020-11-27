@@ -3,11 +3,13 @@ namespace Hyper\Database\Drivers;
 
 use Hyper\Database\DatabaseConnection as Connection;
 use Hyper\Database\DatabaseOperations as Operations;
+use Hyper\Database\DbConnection;
 use Hyper\Database\CRUD\select;
 
 use PDOException;
+use PDO;
 
-class SQLiteConnection implements Connection,Operations
+class SQLiteConnection implements Connection
 {
     public $connection_params;
     public function __construct($params)
@@ -26,11 +28,6 @@ class SQLiteConnection implements Connection,Operations
         {
             echo 'Conexão falhou: ' . $e->getMessage();
         }
-    }
-
-    public function get_all_collumns(string $table_name)
-    {
-        return (array)select::execute("PRAGMA_TABLE_INFO('$table_name')", 'name,type');
     }
 }
 ?>

@@ -1,13 +1,11 @@
 <?php
-namespace Hyper\Database\Drivers;
+namespace Hyper\Database\Drivers\Connetion;
 
 use Hyper\Database\DatabaseConnection as Connection;
-use Hyper\Database\DatabaseOperations as Operations;
-use Hyper\Database\CRUD\select;
 
 use PDOException;
 
-class PostgreSQLConnection implements Connection, Operations
+class PostgreSQLConnection implements Connection
 {
     public $user, $password;
     public $connection_params;
@@ -33,11 +31,6 @@ class PostgreSQLConnection implements Connection, Operations
         {
             echo 'Conexão falhou: ' . $e->getMessage();
         }
-    }
-
-    public function get_all_collumns(string $table_name)
-    {
-        
     }
 }
 
