@@ -57,7 +57,7 @@ class ConnectionManagement
                 throw new Exception("Database is not instanced. Create the instance using this method with params of the database.");
             }
 
-            self::$_instance = new DbConnection($params);
+            self::$_instance = new self($params);
         }
 
         else
