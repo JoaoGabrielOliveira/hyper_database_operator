@@ -20,7 +20,9 @@ class select
 
             $statement->execute();
 
-            $result = $statement->fetchAll(PDO::FETCH_CLASS);
+            $class_name = class_exists($table_name) ? $table_name : null;
+
+            $result = $statement->fetchAll(PDO::FETCH_CLASS,$class_name);
 
             return $result;
         }

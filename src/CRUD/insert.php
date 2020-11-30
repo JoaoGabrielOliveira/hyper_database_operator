@@ -4,17 +4,17 @@ namespace Hyper\Database\CRUD;
 
 use Hyper\Database\DbConnection;
 use Hyper\Console;
-use PDO;
+use Exception;
 
 class insert
 {
-    public static function execute(array $values)
+    public static function execute(string $table, array $values)
     {
         $insert_results = 0;
 
-        $columns_name;
-        $processed_data;
-        $marged_data;
+        $columns_name = null;
+        $processed_data = null;
+        $marged_data = null;
         try
         {
             if (self::is_multiple_values($values))
@@ -32,7 +32,7 @@ class insert
                 $marged_data = $processed_data;
             }
 
-            $SQL_string = self::convert_data_to_insert_sql('tb_cliente',$columns_name,$processed_data);
+            $SQL_string = self::convert_data_to_insert_sql($table,$columns_name,$processed_data);
 
             $statement = DbConnection::prepare_statement($SQL_string);
 
