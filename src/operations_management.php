@@ -1,12 +1,17 @@
 <?php
 namespace Hyper\Database;
-use Hyper\Database\DbConnection;
+use Hyper\Database\ConnectionManagement;
 
 class OperationsManagement
 {
-    public static function get_all_collumns(string $table_name)
+    public static function get_all_columns(string $table_name)
     {
-        return DbConnection::get_driver()->get_all_collumns($table_name);
+        return ConnectionManagement::get_driver()->get_all_columns($table_name);
+    }
+
+    public static function create_table()
+    {
+        
     }
 }
 
