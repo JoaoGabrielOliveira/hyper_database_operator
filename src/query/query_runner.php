@@ -1,8 +1,11 @@
 <?php
 namespace Hyper\Database;
 
-use ConnectionManagement;
-use Query;
+use Hyper\Database\ConnectionManagement;
+use Hyper\Database\Query;
+
+use PDOException;
+use Exception;
 
 abstract class QueryRunner
 {
@@ -12,48 +15,32 @@ abstract class QueryRunner
 
     public function fetch()
     {
-        try
-        {
-            $statement = self::execute( $this->query->limit(1) );
-            return $statement->fetch();
-        }
-
-        catch(Exception $e)
-        {
-            return "Error: " . $e->getMessage();
-        }
+        $statement = $this->execute;
+        return $statement->fetch();
     }
 
     public function fetchAll()
     {
-        try
-        {    
-            $statement = self::execute($this->query->limit(1));
-            return $statement->fetchAll();
-        }
-
-        catch(Exception $e)
-        {
-            return "Error: " . $e->getMessage();
-        }
+        $statement = $this->execute;
+        return $statement->fetch();
     }
 
-    public function execute(Query $query)
+    public function execute()
     {
         try
         {
-            $statement = ConnectionManagement::prepare_statement($query);
+            $statement = ConnectionManagement::prepareStatement($this->query);
             $statement->execute();
             return $statement;
         }
-
+        catch(PDOException $e)
+        {
+            return "PDO Error: " . $e->getMessage();
+        }
         catch(Exception $e)
         {
             return "Error: " . $e->getMessage();
         }
     }
-
 }
-
-
 ?>

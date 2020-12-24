@@ -1,93 +1,48 @@
 <?php
-
 namespace Hyper\Database;
-
-use Hyper\Database\DatabaseConnection as Connection;
-use Hyper\Database\Drivers\PostgreSQLConnection;
-use Hyper\Database\Drivers\SQLiteConnection;
-
-use PDO;
-use PDOException;
-use PDOStatement;
-use Exception;
+use Hyper\Database;
+use Hyper\Database\Drivers\Connections\PostgreSQLConnection;
+use Hyper\Database\Drivers\Connections\SQLiteConnection;
 
 class ConnectionManagement
-{   
-    public $connection_params;
-    private $_driver;
-    
-    private static $_instance;
-    
+{
+    private static Database $DATABASE;
+    private static $_driver;
 
-    public function __construct($params)
+    public static function setDatabase($params)
     {
         if(isset($params['db']))
-        {
             $params = $params['db'];
-        }
 
+        self::setDriver($params);
+    }
+
+    public static function setDriver($params)
+    {
         switch($params['driver'])
         {
             case 'psql':
-                $this->_driver = new PostgreSQLConnection($params);
+                self::$_driver = new PostgreSQLConnection($params);
             break;
 
             case 'sqlite':
-                $this->_driver = new SQLiteConnection($params);
+                self::$_driver = new SQLiteConnection($params);
             break;
         }
     }
-    
-    public function connect()
+
+    public static function getDriver()
     {
-        return $this->_driver->connect();
+        return self::$_driver;
     }
 
-    public static function get_instance()
+    public static function getDatabase():Database
     {
-        return self::$_instance;
+        return self::$DATABASE;
     }
 
-    public static function set_instance($params)
+    public static function prepareStatement(string $query)
     {
-        if(self::is_intance_null())
-        {
-            if(is_null($params))
-            {
-                throw new Exception("Database is not instanced. Create the instance using this method with params of the database.");
-            }
-
-            self::$_instance = new self($params);
-        }
-
-        else
-        {
-            echo "This it's already instanced\n";
-        }
-    }
-
-    public static function prepare_statement(string $query)
-    {
-        $connection = self::get_instance()->connect();
-
-        //$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        //$connection->setAttribute(PDO::ATTR_CASE, PDO::CASE_NATURAL);
-
-        return $connection->prepare($query);
-    }
-
-    private static function is_intance_null():bool
-    {
-        if(is_null(self::$_instance))
-            return true;
-        return false; 
-    }
-
-    public static function get_driver($return_driver_name = false)
-    {
-        $instance = self::get_instance();
-        return $return_driver_name ? $instance->connection_params['driver'] : $instance->_driver;
+        return self::getDatabase()->prepare_statement($query);
     }
 }
-
-?>
