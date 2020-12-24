@@ -1,95 +1,28 @@
 <?php
-
 namespace Hyper\Database\CRUD;
+use Hyper\Database\QueryRunner;
 
-use Hyper\Database\DbConnection;
-use Hyper\Console;
-use Exception;
-
-class update
+class update extends QueryRunner
 {
-    public static function execute(string $table_name, $condition, array $params)
+    public function __construct(string $table,array $setters = [])
     {
-        try
+        $this->query->update($table);
+
+        if(!empty($setters))
         {
-            $setters = self::creating_setters($params);
-            
-            $condition = self::creating_condition($condition);
-
-            $SQL_string = "UPDATE $table_name SET $setters $condition";
-
-            $statement = DbConnection::prepare_statement($SQL_string);
-
-            $statement->execute();
-
-            Console::info_success(Console::print_blue($setters) . "foram atualizados com", " SUCESSO!","  ⇉");
-        }
-
-        catch(Exception $e)
-        {
-            Console::print_red("Error: " . $e->getMessage(),false);
-        }
-    }
-
-    /*public static function execute_other(PDO $connection,$table_name, $params = [ [1, ['nome' => 'GabrielZão', 'endereco_id' => '300']], [2, ['nome' => 'Joãozão', 'endereco_id' => '300']] ])
-    {
-        
-    }*/
-
-    private static function creating_condition($condition)
-    {
-        $result = [];
-
-        if(is_array($condition) )
-        {
-            foreach($condition as $key => $value)
+            foreach($setters as $field => $value)
             {
-                array_push($result,$key .'='."'$value'");
+                $this->set($field, $value);
             }
-
-            $result = implode(' AND ',$result);
-
-            $result = 'WHERE ' . $result;
         }
 
-        else if(is_string($condition) && $condition != '')
-        {
-            $result = 'WHERE ' . $condition;
-        }
-
-        else if($condition == '')
-        {
-            $result = '';
-        }
-
-        else
-        {
-            throw new InvalidArgumentException('Condition is not a string or a array.');
-        }
-
-        return($result);
+        return $this;
     }
 
-    private static function creating_setters(array $data)
+    public function set(string $field, $value):self
     {
-        $result = [];
-
-        foreach($data as $key => $value)
-        {
-            $set;
-            if (is_numeric($value))
-                $set =$key .'='. "$value";
-            else
-                $set =$key .'='. "'$value'";
-
-            array_push($result,$set);
-        }
-
-        return( implode(',',$result) );
+        $this->query->set($field, $value);
+        return $this;
     }
-
-
 }
-
-
 ?>

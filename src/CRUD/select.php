@@ -1,69 +1,12 @@
 <?php
+namespace Hyper\Database\QueryRunner;
+use Hyper\Database\QueryRunner;
 
-namespace Hyper\Database\CRUD;
-
-use Exception;
-use Hyper\Database\DbConnection;
-use PDO;
-
-class select
+class Select extends QueryRunner
 {
-    public static function execute($table_name, $collumns = '*', $condition = '')
+    public function __construct($table_name, $columns = '*'):self
     {
-        try
-        {
-            $condition = self::creating_condition($condition);
-
-            $SQL_string = "SELECT $collumns FROM $table_name $condition";
-
-            $statement = DbConnection::prepare_statement($SQL_string);
-
-            $statement->execute();
-
-            $class_name = class_exists($table_name) ? $table_name : null;
-
-            $result = $statement->fetchAll(PDO::FETCH_CLASS,$class_name);
-
-            return $result;
-        }
-
-        catch(Exception $e)
-        {
-            return "Error: " . $e->getMessage();
-        }
-    }
-
-    private static function creating_condition($condition)
-    {
-        $result = [];       
-
-        if(is_array($condition))
-        {
-            foreach($condition as $key => $value)
-            {
-                array_push($result,$key .'='."'$value'");
-            }
-
-            $result = implode(' AND ',$result);
-
-            $result = 'WHERE ' . $result;
-        }
-
-        else if(is_string($condition) && $condition != '')
-        {
-            strpos($condition, 'WHERE') === true ? $result = 'WHERE ' . $condition : $result = $condition;
-        }
-
-        else if($condition == '')
-        {
-            $result = $condition;
-        }
-
-        else
-        {
-            throw new InvalidArgumentException('Condition is not a string or a array.');
-        }
-
-        return($result);
+        $this->query->select($table_name,$columns);
+        return($this);
     }
 }
