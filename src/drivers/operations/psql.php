@@ -1,17 +1,14 @@
 <?php
-namespace Hyper\Database\Drivers\Operations;
+namespace Hyper\Database\Operations;
 
-use Hyper\Database\DatabaseOperations as Operations;
-use Hyper\Database\Drivers\Connetion\PostgreSQLConnection;
-use Hyper\Database\CRUD\select;
+use Hyper\Database;
+use Hyper\Database\Drivers\DatabaseOperations;
 
-use PDOException;
-
-class PostgreSQLOperations implements Operations
+class PostgreSQLOperations implements DatabaseOperations
 {
-    public PostgreSQLConnection $connection;
+    public Database $database;
 
-    public function create_table(string $table_name, array $collumns)
+    public function create_table(string $table_name, array $columns)
     {
         
     }
@@ -21,7 +18,7 @@ class PostgreSQLOperations implements Operations
         
     }
 
-    public function get_all_collumns(string $table_name)
+    public function get_all_columns(string $table_name)
     {
         
     }
