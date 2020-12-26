@@ -1,36 +1,38 @@
 <?php
-namespace Hyper\Database;
+namespace Hyper\Utels;
 
-use Hyper\Database\ConnectionManagement;
-use Hyper\Database\Query;
+use Hyper\Record\Connection\ConnectionManagement;
+use Hyper\Utels\Query;
 
 use PDOException;
 use Exception;
 
-abstract class QueryRunner
+abstract class QueryRunner extends Query
 {
-    private Query $query;
-
-    use QueryHelper;
-
     public function fetch()
     {
-        $statement = $this->execute;
+        $statement = $this->prepare();
         return $statement->fetch();
     }
 
     public function fetchAll()
     {
-        $statement = $this->execute;
-        return $statement->fetch();
+        $statement = $this->prepare();
+        return $statement->fetchAll();
     }
 
     public function execute()
     {
+        $statement = $this->prepare();
+        $statement->execute();
+        return $statement->rowCount();
+    }
+    
+    public function prepare()
+    {
         try
         {
-            $statement = ConnectionManagement::prepareStatement($this->query);
-            $statement->execute();
+            $statement = ConnectionManagement::prepareStatement($this->text_query);
             return $statement;
         }
         catch(PDOException $e)
@@ -41,6 +43,7 @@ abstract class QueryRunner
         {
             return "Error: " . $e->getMessage();
         }
+        
     }
 }
 ?>
