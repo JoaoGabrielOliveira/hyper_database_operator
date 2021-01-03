@@ -1,6 +1,6 @@
 {
-    "name": "hypercode/db_operations",
-    "description": "A system using PDO to make operation in database",
+    "name": "hypercode/database_operator",
+    "description": "To do operations in database",
     "type": "library",
     "authors": [
         {
@@ -11,8 +11,7 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "Hyper\\Record\\":["src", "src/query"],
-            "Hyper\\Record\\CRUD\\":["src/crud"]
+            "Hyper\\Record\\Operation\\":["src", "src/operations"]
         }
     },
 
