@@ -1,4 +1,4 @@
-# Database Operation
+# Database Operator
 
 **Database Operation** is a package with somes class to connect in a database and make CRUD operations.
 
