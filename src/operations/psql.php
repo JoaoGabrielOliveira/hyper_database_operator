@@ -1,8 +1,8 @@
 <?php
-namespace Hyper\Database\Operations;
+namespace Hyper\Record\Operation\Drivers;
 
-use Hyper\Database;
-use Hyper\Database\Drivers\DatabaseOperations;
+use Hyper\Record\Database;
+use Hyper\Record\Operation\DatabaseOperations;
 
 class PostgreSQLOperations implements DatabaseOperations
 {

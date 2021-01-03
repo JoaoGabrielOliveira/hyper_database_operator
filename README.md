@@ -8,7 +8,7 @@
 The first thing you need the do is set the ````DbConnection```` using the function ````set_instance````.
 
 ````php
-ConnectionManagement::set_instance([
+ConnectionManagement::setDatabase([
 'db' => [
     "driver" => "psql",
     "host" => "localhost",

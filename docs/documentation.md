@@ -50,7 +50,7 @@ This class is a static class to make insert query without SQL.
 | - processing_data            | array $values                        | This helper function get the value that will be inserted and preparing the value to SQL injection                                                                           |
 | - processing_multiple_data   | array $values                        | This helper function get the values that will be inserted and preparing the values to SQL injection                                                                         |
 | - is_multiple_values         | array $data                          | Verify if the values that will be inserted is a one or have a more one data to be insert.This helper function                                                               |
-| - convert_data_to_insert_sql | string $table_name, $collumns, $rows | This helper function get informations, as table name, to create a SQL query string Used inside on **convert_data_to_insert_sql** function.                                  |
+| - convert_data_to_insert_sql | string $table_name, $columns, $rows | This helper function get information, as table name, to create a SQL query string Used inside on **convert_data_to_insert_sql** function.                                  |
 | - convert_values_to_sql      | array $data                          | This helper function get just the values data, after be processed, and convert to SQL query string.                                                                         |
 | - merge_data                 | array $data                          | This helper function just get separate values and merge all in a single array.                                                                                              |
 
@@ -64,7 +64,7 @@ This class is a static class to make select query without SQL.
 
 | Functions            | Parameters                                | Description                                                                                                   |
 |----------------------|-------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| + execute            | string $table_name, $collumns, $condition | This function execute the query select without SQL. Just parameter $table_name is require, other is optional. |
+| + execute            | string $table_name, $columns, $condition | This function execute the query select without SQL. Just parameter $table_name is require, other is optional. |
 | - creating_condition | $condition                                | This helper function verify if parameter is a string or a array, convert to a WHERE SQL query.                |
 
 

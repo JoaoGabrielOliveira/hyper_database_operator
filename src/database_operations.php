@@ -1,5 +1,5 @@
 <?php
-namespace Hyper\Database\Drivers;
+namespace Hyper\Record\Operation;
 
 interface DatabaseOperations
 {
