@@ -18,18 +18,11 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/JoaoGabrielOliveira/hyper_colored_console.git"
-        },
-        {
-            "type": "vcs",
             "url": "https://github.com/JoaoGabrielOliveira/hyper_database_connector.git"
         }
     ],
 
     "require": {
-        "hypercode/colored_console": "dev-main",
-        "hypercode/database_connector": "dev-main",
-        "hypercode/query": "1.0.0",
-        "hypercode/queryrunner": "1.0.0"
+        "hypercode/database_connector": "dev-main"
     }
 }
