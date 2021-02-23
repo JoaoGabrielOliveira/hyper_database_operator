@@ -1,10 +1,15 @@
 <?php
 namespace Hyper\Record\Operation;
-use Hyper\Record\Operation\DatabaseOperations;
+use Exception;
 use Hyper\Record\Operation\Operator;
+use Hyper\Record\Operation\SpecificOperations;
 
-class SQLiteOperations extends Operator implements DatabaseOperations
+class SQLiteOperations extends Operator implements SpecificOperations
 {
-
+    public function getColumns(string $table):iterable
+    {
+        $query = "PRAGMA table_info($table);";
+        return $this->feat($query);
+    }
 }
 ?>
