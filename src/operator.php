@@ -10,6 +10,7 @@ use InvalidArgumentException;
 class Operator implements DatabaseOperations
 {
     public Database $database;
+    public $connection;
 
     public function __construct($database)
     {
@@ -31,66 +32,102 @@ class Operator implements DatabaseOperations
 
     public function execute(string $query)
     {
-        $connection = $this->database->connect();
+        $this->connect();
 
-        $statement = $this->prepareStatement($query,$connection);
+        $statement = $this->prepareStatement($query);
 
         $statement->execute();
 
-        return $statement->rowCount();
+        $data = $statement->rowCount();
+
+        $this->disconnect();
+
+        return $data;
     }
 
     public function executeOrRollback(string $query)
     {
-        $connection = $this->database->connect();
-        $statement = $this->prepareStatement($query,$connection);
-        $this->doTransaction($connection, function($s){
-            $s->execute();
-        });
-        return $statement->rowCount();
+        $this->connect();
+        $this->connection->beginTransaction();
+        try
+        {
+            $statement = $this->prepareStatement($query);
+            $statement->execute();
+            $this->connection->commit();
+            $this->disconnect();
+            return $statement->rowCount();
+        }
+        catch(Exception $e)
+        {
+            $this->connection->rollBack();
+            $this->disconnect();
+            throw $e;
+        }
     }
 
     public function feat(string $query, ...$params)
     {
-        $connection = $this->database->connect();
+        $this->connect();
 
-        $statement = $this->prepareStatement($query,$connection);
+        $statement = $this->prepareStatement($query);
 
         $statement->execute();
 
-        return $statement->feat(...$params);
+        $data = $statement->feat(...$params);
+        
+        $this->disconnect();
+
+        return $data;
     }
 
     public function featAll(string $query, ...$params)
     {
-        $connection = $this->database->connect();
+        $this->connect();
 
-        $statement = $this->prepareStatement($query,$connection);
+        $statement = $this->prepareStatement($query);
 
         $statement->execute();
 
-        return $statement->featAll(...$params);
+        $data = $statement->featAll(...$params);
+
+        $this->disconnect();
+
+        return $data;
     }
 
-    private function doTransaction($connection, $do)
+    public function doTransaction($do)
     {
-        $connection->beginTransaction();
+        $this->connect();
+        $this->connection->beginTransaction();
         try
         {
-            $do();
+            yield $do();
         }
         catch(Exception $e)
         {
-            $connection->rollBack();
+            $this->connection->rollBack();
+            $this->disconnect();
             throw $e;
         }
-        $connection->commit();
+
+        $this->connection->commit();
+        $this->disconnect();
     }
 
-    private function prepareStatement(string $query, $connection = null)
+    protected function prepareStatement(string $query)
     {
-        $connection = $connection ?? $this->database->connect();
-        return $connection->prepare($query);
+        
+        return $this->connection->prepare($query);
+    }
+
+    protected function connect():void
+    {
+        $this->connection = $this->connection ?? $this->database->connect();
+    }
+
+    protected function disconnect():void
+    {
+        $this->connection = null;
     }
 }
 
