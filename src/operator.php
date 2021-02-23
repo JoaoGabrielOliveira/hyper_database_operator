@@ -50,6 +50,28 @@ class Operator implements DatabaseOperations
         return $statement->rowCount();
     }
 
+    public function feat(string $query, ...$params)
+    {
+        $connection = $this->database->connect();
+
+        $statement = $this->prepareStatement($query,$connection);
+
+        $statement->execute();
+
+        return $statement->feat(...$params);
+    }
+
+    public function featAll(string $query, ...$params)
+    {
+        $connection = $this->database->connect();
+
+        $statement = $this->prepareStatement($query,$connection);
+
+        $statement->execute();
+
+        return $statement->featAll(...$params);
+    }
+
     private function doTransaction($connection, $do)
     {
         $connection->beginTransaction();
