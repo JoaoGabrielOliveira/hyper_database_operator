@@ -4,14 +4,29 @@ namespace Hyper\Record\Operation;
 use Exception;
 use Hyper\Record\Operation\DatabaseOperations;
 use Hyper\Record\Database;
+use Hyper\Record\Connection\DatabaseConnection;
+use InvalidArgumentException;
 
-abstract class Operator implements DatabaseOperations
+class Operator implements DatabaseOperations
 {
     public Database $database;
 
-    public function __construct(Database $database)
+    public function __construct($database)
     {
-        
+        switch($database::class)
+        {
+            case Database::class :
+                $this->database = $database;
+            break;
+
+            case DatabaseConnection::class :
+                $this->database = new Database($database);
+            break;
+
+            default:
+                throw new InvalidArgumentException;
+            break;
+        }
     }
 
     public function execute(string $query)
