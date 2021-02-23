@@ -1,15 +1,15 @@
 <?php
 namespace Hyper\Record\Operation;
-use Exception;
-use Hyper\Record\Operation\Operator;
 use Hyper\Record\Operation\SpecificOperations;
+use Hyper\Record\Operation\Operator;
 
-class SQLiteOperations extends Operator implements SpecificOperations
+class PostgreSQLOperations extends Operator implements SpecificOperations
 {
     public function getColumns(string $table):iterable
     {
-        $query = "PRAGMA table_info($table);";
+        $query = "SELECT `information_schema.columns` WHERE `table_name`=$table";
         return $this->feat($query);
     }
 }
+
 ?>
