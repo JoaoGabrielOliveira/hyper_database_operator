@@ -1,11 +1,10 @@
 <?php
-namespace Hyper\Record\Operation;
+namespace Hyper\Record;
 
 use Exception;
-use Hyper\Record\Operation\DatabaseOperations;
 use Hyper\Record\Database;
+use Hyper\Record\Operation\DatabaseOperations;
 use Hyper\Record\Connection\DatabaseConnection;
-use InvalidArgumentException;
 
 class Operator implements DatabaseOperations
 {
@@ -25,7 +24,7 @@ class Operator implements DatabaseOperations
             break;
 
             default:
-                throw new InvalidArgumentException;
+                throw new \InvalidArgumentException;
             break;
         }
     }

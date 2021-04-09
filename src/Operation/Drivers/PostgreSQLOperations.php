@@ -1,5 +1,5 @@
 <?php
-namespace Hyper\Record\Operation;
+namespace Hyper\Record\Operation\Drivers;
 use Hyper\Record\Operation\SpecificOperations;
 use Hyper\Record\Operation\Operator;
 
