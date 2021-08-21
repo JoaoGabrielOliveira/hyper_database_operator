@@ -1,8 +1,8 @@
 <?php
-namespace Hyper\Record\Operation;
+namespace Hyper\Record;
 
 use Exception;
-use Hyper\Record\Operation\DatabaseOperations;
+use Hyper\Record\Operations\DatabaseOperations;
 use Hyper\Record\Database;
 use Hyper\Record\Connection\DatabaseConnection;
 use InvalidArgumentException;

@@ -1,5 +1,5 @@
 <?php
-namespace Hyper\Record\Operation;
+namespace Hyper\Record\Operations;
 use Exception;
 use Hyper\Record\Operation\Operator;
 use Hyper\Record\Operation\SpecificOperations;

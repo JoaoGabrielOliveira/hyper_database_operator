@@ -1,5 +1,5 @@
 <?php
-namespace Hyper\Record\Operation;
+namespace Hyper\Record;
 interface SpecificOperations
 {
     public function getColumns(string $table):iterable;

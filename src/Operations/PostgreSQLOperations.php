@@ -1,7 +1,7 @@
 <?php
-namespace Hyper\Record\Operation;
-use Hyper\Record\Operation\SpecificOperations;
-use Hyper\Record\Operation\Operator;
+namespace Hyper\Record\Operations;
+use Hyper\Record\SpecificOperations;
+use Hyper\Record\Operator;
 
 class PostgreSQLOperations extends Operator implements SpecificOperations
 {

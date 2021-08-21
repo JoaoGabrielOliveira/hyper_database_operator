@@ -1,5 +1,5 @@
 <?php
-namespace Hyper\Record\Operation;
+namespace Hyper\Record\Operations;
 interface DatabaseOperations
 {
     public function __construct($database);
